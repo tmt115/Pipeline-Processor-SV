@@ -21,12 +21,14 @@ always_ff @(posedge clk) begin
             file[x] <= 0;
         end
     end
-    if (waddr == 0) begin
-        file[waddr] <= 64'b0;
+    if (w_en) begin
+        if (waddr == 0) begin
+            file[waddr] <= 64'b0;
+        end
+        else begin
+            file[waddr] <= wdata;
+        end
     end
-    else begin
-        file[waddr] <= wdata;
-
 end
 
 always_comb begin
