@@ -29,6 +29,8 @@ assign eq_comp_out_64b[63:1] = 63'b0;
 assign eq_comp_out_64b[0] = eq_comp_out;
 
 always_comb begin
+    
+    result = 'x;
 
     if (op) begin
         result = eq_comp_out_64b;

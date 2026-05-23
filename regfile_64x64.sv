@@ -16,7 +16,6 @@ logic [63:0] file[64];
 
 always_ff @(posedge clk) begin
 
-
     if (res) begin
         for (int x = 0; x < 64; x++) begin
             file[x] <= 0;

@@ -6,7 +6,9 @@ module equality_comparator_64b (
 );
 
 always_comb begin
-
+    
+    eq = 'x;
+    
     if (in0 == in1) begin
         eq = 1'b1;
     end
