@@ -17,6 +17,7 @@ module Pipeline_Processor_DataPath (
     input  logic       wb_sel,
     input  logic       rf_waddr,
     input  logic       rf_wen,
+    input  logic       pc_reg_f_en,
     //
     //------ (TO BE DRIVEN) -------//
 
@@ -44,17 +45,43 @@ module Pipeline_Processor_DataPath (
 
 //---------- Fetch Stage ----------//
 
+logic [63:0] pc_mux_out;
+logic [63:0] bne_target;
+logic [63:0] jal_target;
+logic [63:0] jr_target;
+logic [63:0] pc_p4;
+logic [63:0] pc_f_out;
+logic [63:0] pd_fd_out;
+
 mux4to1_64b pc_mux (
     .in0 (bne_target),
     .in1 (jal_target),
-    .in2 ()
+    .in2 (jr_target),
+    .in3 (pc_p4),
+    .sel (pc_sel),
+    .out (pc_mux_out)
     );
 
 register_64b pc_f (
     .d   (pc_mux_out),
     .rst (rst),
-    .en  (en),
+    .en  (pc_reg_f_en),
     .clk (clk),
     .q   (pc_f_out)
     );
+
+adder_64b pc_plus4_adder (
+    .in0 (pc_f_out),
+    .in1 (64'd4),
+    .out (pc_p4)
+    );
+
+register_64b pc_fd (
+    .d   (pc_f_out),
+    .rst (rst),
+    .en  (reg_en_fd),
+    .clk (clk),
+    .q   (pc_fd_out)
+    );
+
 
