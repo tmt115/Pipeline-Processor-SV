@@ -1,8 +1,8 @@
 module adder_64b (
-    input  logic in0,
-    input  logic in1,
+    input  logic [63:0] in0,
+    input  logic [63:0] in1,
 
-    output logic out
+    output logic        out
 );
 
 always_comb begin
